@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './app.css';
+import React, { FC } from "react";
+import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
+import { useStyletron } from "styletron-react";
+import DictionaryEdit from "./dictionary/components/edit";
+import DictionaryNew from "./dictionary/components/new";
+import ProductIndex from "./product/screens";
 
-const App: React.FC = () => {
+const App: FC<RouteComponentProps> = () => {
+  const [css] = useStyletron();
+  const layout = css({
+    margin: "auto",
+    width: "960px",
+    padding: "1rem"
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={layout}>
+      <Switch>
+        <Route exact={true} path="/" component={ProductIndex} />
+        <Route exact={true} path="/dictionary/new" component={DictionaryNew} />
+        <Route
+          exact={true}
+          path="/dictionary/edit/:id"
+          component={DictionaryEdit}
+        />
+      </Switch>
     </div>
   );
-}
+};
 
-export default App;
+export default withRouter(App);
